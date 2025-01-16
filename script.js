@@ -12,6 +12,7 @@ button.onclick = async function()
   var response = await fetch("recipes.json");
   var json = await response.json();
   json.Raiko.foreach((e) => nav.innerHTML += "<a href='Raiko/SpaghettiCarbonara.html'>link</a>");
+  json.raiko.foreach((e) => nav.innerHTML += "<a href='Raiko/SpaghettiCarbonara.html'>link</a>");
   console.log(json);
   alert('clicked'); 
 };
