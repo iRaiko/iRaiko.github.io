@@ -14,3 +14,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 var button = document.getElementById("testClass");
 button.innerHTML = "haha yes";
+
+button.onclick = function() { alert('clicked'); };
