@@ -6,9 +6,11 @@ var button = document.getElementById("testClass");
 var div = document.getElementById("json");
 button.innerHTML = "haha yes";
 
-button.onclick = function() 
+button.onclick = async function() 
 { 
-  getJson().then((json) => div.innerHTML = json);
+  var response = await fetch("recipes.json");
+  var json = await response.json();
+  console.log(json);
   alert('clicked'); 
 };
 
