@@ -8,14 +8,14 @@ button.innerHTML = "haha yes";
 
 button.onclick = function() 
 { 
-  fetch("recipes.json")
-    .then((value) => 
-      { 
-        var json = value.json(); 
-        console.log(json)
-        div.innerHTML = json;
-      } 
-  );
+  getJson().then((json) => div.innerHTML = json);
   alert('clicked'); 
 };
+
+
+async function getJson() {
+  return fetch("recipes.json").then((response) => response.json());
+}
+
+
 
