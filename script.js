@@ -8,6 +8,6 @@ button.innerHTML = "haha yes";
 button.onclick = function() 
 { 
   fetch("recipes.json")
-    .then((value) => { console.log(value)});
+    .then((value) => { console.log(value.json())});
   alert('clicked'); 
 };
