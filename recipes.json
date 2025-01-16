@@ -1,10 +1,4 @@
 {
-    "raiko": [
-        [
-            "SpaghettiCarbonara.html",
-            "spaghetti",
-            "beans"
-        ]
-    ],
-    "emmie": []
+    "raiko": [ ["SpaghettiCarbonara.html", "Beans", "Spaghetti"] ],
+    "emmie": [ [] ]
 }
