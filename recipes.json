@@ -18,7 +18,11 @@
         ["LemonChicken", "Rice"],
         ["Chanko", "Asian"],
         ["Quessadillas", "Mexican"],
-        ["BoulletALaLiegeoise", "French"]
+        ["BoulletALaLiegeoise", "French"],
+        ["CheeseChilli", "Mexican"],
+        ["Chilli", "Mexican"],
+        ["ShepardsPie", "English"],
+        ["Gratin", "Potato"]
     ],
     "Emmie": [ [] ]
 }
