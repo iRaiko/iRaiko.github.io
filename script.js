@@ -53,13 +53,17 @@ async function navigation()
 
 
 var button = document.getElementById("random");
+var input = document.getElementById("randomCount");
 button.onclick = function () {
-  const random = Math.floor(Math.random() * recipes.length);
   var div = document.getElementById("links");
-  var link = document.createElement("a");
-  link.href = recipes[random];
-  link.textContent = recipes[random];
-  div.appendChild(link);
+  div.innerHTML = '';
+  for(var i = 0; i < Number(input.nodeValue); i++) {
+    const random = Math.floor(Math.random() * recipes.length);
+    var link = document.createElement("a");
+    link.href = recipes[random];
+    link.textContent = recipes[random];
+    div.appendChild(link);
+  }
 }
 
 navigation();
