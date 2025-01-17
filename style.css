@@ -9,10 +9,15 @@ body {
   height: 100vh;
 }
 
+.randomizer {
+  position: absolute;
+  left: 50%;
+  top: 15%;
+}
+
 .navbar {
   list-style-type: none;
   position: absolute;
-  top: 15%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
