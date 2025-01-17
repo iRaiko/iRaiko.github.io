@@ -11,6 +11,7 @@ button.onclick = async function()
   var response = await fetch("recipes.json");
   var json = await response.json();
   for(const person in json) {
+    catagories[person] = {};
     var li_person_name = document.createElement("li");
     var ul_person_name = document.createElement("ul");
     ul_person_name.classList.add("nestlist");
@@ -22,6 +23,7 @@ button.onclick = async function()
     for(const recipe of json[person]) {
       nav.innerHTML += "<a href=" + person + "/" + recipe[0] + ">" + recipe[0] + "</a>";
       for(const t of recipe.slice(1)) {
+        catagories[person]["All"] = recipe[0];
         catagories[person][t] = recipe[0];
       }
     }
@@ -29,6 +31,7 @@ button.onclick = async function()
     console.log(navbar);
     navbar.appendChild(li_person_name);
   }
+  console.log(catagories);
   console.log(json);
   alert('clicked'); 
 };
@@ -43,7 +46,6 @@ var template = document.getElementById("buttonTemplate");
 var buttons = document.getElementById("buttons");
 buttons.appendChild(template.cloneNode(true));
 
-console.log(catagories);
 
 
 
