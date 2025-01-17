@@ -39,7 +39,7 @@ button.onclick = async function()
       a_catagory_name.textContent = catagory;
       li_catagory_name.appendChild(a_catagory_name);
       li_catagory_name.appendChild(ul_catagory_name);
-      for(const recipe of catagory) {
+      for(const recipe of catagories[person][catagory]) {
         var li_recipe_name = document.createElement("li");
         var a_recipe_name = document.createElement("a");
         a_recipe_name.href = person + "/" + recipe;
