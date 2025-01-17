@@ -9,8 +9,13 @@
         ["Pokebowl", "Hawaii"],
         ["MexicanPokebowl", "Mexican"],
         ["Hamburger", "Burger"],
-        ["Thai red curry", "Thai", "Curry"],
-        ["Massaman curry", "Thai", "Curry"]
+        ["ThaiRedCurry", "Thai", "Curry", "Rice"],
+        ["MassamanCurry", "Thai", "Curry", "Rice"],
+        ["Sticky chicken", "Rice"],
+        ["Fried rice", "Rice"],
+        ["Burrito", "Mexican"],
+        ["Enchiladas", "Mexican"],
+        ["LemonChicken", "Rice"]
     ],
     "Emmie": [ [] ]
 }
