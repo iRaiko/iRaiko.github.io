@@ -12,7 +12,11 @@ button.onclick = async function()
 { 
   var response = await fetch("recipes.json");
   var json = await response.json();
-  nav.innerHTML = "<a href='Raiko/SpaghettiCarbonara.html'>link</a>";
+  for(const person in json) {
+    for(const recipe in json[person]) {
+      nav.innerHTML += "<a href=" + person + "/" + recipe[0] + ">" + recipe[0] + "</a>";
+    }
+  }
   console.log(json);
   alert('clicked'); 
 };
