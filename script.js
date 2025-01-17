@@ -58,8 +58,12 @@ var template = document.querySelector("#template tr");
 button.onclick = function () {
   var table = document.getElementById("links");
   table.innerHTML = '';
+  var rolled = [];
   for(var i = 0; i < Number(input.value); i++) {
-    const random = Math.floor(Math.random() * recipes.length);
+    var random = Math.floor(Math.random() * recipes.length);
+    while (rolled.includes(random)) {
+      random = Math.floor(Math.random() * recipes.length);
+    }
 
     const clone = template.cloneNode(true);
     clone.style.display = '';

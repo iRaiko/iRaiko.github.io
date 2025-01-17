@@ -10,6 +10,10 @@ body {
   width: 100vw;
 }
 
+table, th, td{
+  border: 1px solid lightgrey;
+}
+
 .randomizer {
   position: absolute;
   left: 40%;
