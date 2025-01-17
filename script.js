@@ -2,10 +2,10 @@ var recipes = null;
 
 console.log("test");
 
-var button = document.getElementById("testClass");
+var button = document.getElementById("getJson");
 var div = document.getElementById("json");
 var nav = document.getElementById("navigation");
-button.innerHTML = "haha yes";
+button.innerHTML = "get json";
 
 button.onclick = async function() 
 { 
@@ -22,12 +22,12 @@ button.onclick = async function()
 async function getJson() {
   return fetch("recipes.json").then((response) => response.json());
 }
-var template = document.getElementById("randomTemplate");
+var template = document.getElementById("buttonTemplate");
 var clicky = document.getElementById("clicky");
 var buttons = document.getElementById("buttons");
 
 clicky.onclick = function() {
-  buttons.innerHTML += template.innerHTML;
+  buttons.appendChild(template.cloneNode(true));
 }
 
 
