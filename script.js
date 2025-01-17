@@ -13,6 +13,7 @@ button.onclick = async function()
   var json = await response.json();
   json.Raiko.foreach((e) => nav.innerHTML += "<a href='Raiko/SpaghettiCarbonara.html'>link</a>");
   json.raiko.foreach((e) => nav.innerHTML += "<a href='Raiko/SpaghettiCarbonara.html'>link</a>");
+  nav.innerHTML = "<a href='Raiko/SpaghettiCarbonara.html'>link</a>";
   console.log(json);
   alert('clicked'); 
 };
@@ -21,6 +22,15 @@ button.onclick = async function()
 async function getJson() {
   return fetch("recipes.json").then((response) => response.json());
 }
+var template = document.getElementById("randomTemplate");
+var clicky = document.getElementById("testClass");
+var buttons = document.getElementById("buttons");
+
+clicky.onclick = function() {
+  buttons.innerHTML += template.innerHTML;
+}
+
+
 
 
 
