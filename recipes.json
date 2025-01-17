@@ -8,7 +8,9 @@
         ["MexicanKapsalon", "Mexican"],
         ["Pokebowl", "Hawaii"],
         ["MexicanPokebowl", "Mexican"],
-        ["Hamburger", "Burger"]
+        ["Hamburger", "Burger"],
+        ["Thai red curry", "Thai", "Curry"],
+        ["Massaman curry", "Thai", "Curry"]
     ],
     "Emmie": [ [] ]
 }
