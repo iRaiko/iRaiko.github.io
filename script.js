@@ -13,24 +13,42 @@ button.onclick = async function()
   for(const person in json) {
     catagories[person] = {};
     catagories[person]["All"] = [];
-    var li_person_name = document.createElement("li");
-    var ul_person_name = document.createElement("ul");
-    ul_person_name.classList.add("nestlist");
-    var a_person_name = document.createElement("a");
-    a_person_name.href = "#";
-    a_person_name.textContent = person;
-    li_person_name.appendChild(a_person_name);
-    li_person_name.appendChild(ul_person_name);
     for(const recipe of json[person]) {
-      nav.innerHTML += "<a href=" + person + "/" + recipe[0] + ">" + recipe[0] + "</a>";
+      catagories[person]["All"].push(recipe[0]);
       for(const catagory of recipe.slice(1)) {
-        catagories[person]["All"].push(recipe[0]);
         catagories[person][catagory] = catagories[person][catagory] || [];
         catagories[person][catagory].push(recipe[0]);
       }
     }
+  }
+  for(const person in catagories) {
+    var ul_person_name = document.createElement("ul");
+    var li_person_name = document.createElement("li");
+    var a_person_name = document.createElement("a");
+    ul_person_name.classList.add("nestlist");
+    a_person_name.href = "#";
+    a_person_name.textContent = person;
+    li_person_name.appendChild(a_person_name);
+    li_person_name.appendChild(ul_person_name);
+    for(const catagory in person) {
+      var ul_catagory_name = document.createElement("ul");
+      var li_catagory_name = document.createElement("li");
+      var a_catagory_name = document.createElement("a");
+      ul_catagory_name.classList.add("nestlist", "inner")
+      a_catagory_name.href = "#";
+      a_catagory_name.textContent = catagory;
+      li_catagory_name.appendChild(a_catagory_name);
+      li_catagory_name.appendChild(ul_catagory_name);
+      for(const recipe of catagory) {
+        var li_recipe_name = document.createElement("li");
+        var a_recipe_name = document.createElement("a");
+        a_recipe_name.href = person + "/" + recipe;
+        a_recipe_name.textContent = recipe;
+        li_recipe_name.appendChild(a_recipe_name);
+        ul_catagory_name.appendChild(li_recipe_name);
+      }
+    }
     var navbar = document.getElementById("navbar");
-    console.log(navbar);
     navbar.appendChild(li_person_name);
   }
   console.log(catagories);
