@@ -54,10 +54,10 @@ async function navigation()
 
 var button = document.getElementById("random");
 var input = document.getElementById("randomCount");
-var template = document.getElementById("template");
+var template = document.querySelector("#template tr");
 button.onclick = function () {
-  var div = document.getElementById("links");
-  div.innerHTML = '';
+  var table = document.getElementById("links");
+  table.innerHTML = '';
   for(var i = 0; i < Number(input.value); i++) {
     const random = Math.floor(Math.random() * recipes.length);
 
@@ -75,7 +75,7 @@ button.onclick = function () {
       link.href = recipes[random];
       link.textContent = recipes[random];
     }
-    div.appendChild(clone);
+    table.appendChild(clone);
   }
 }
 
