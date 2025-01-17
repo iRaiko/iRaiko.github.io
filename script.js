@@ -14,11 +14,13 @@ button.onclick = async function()
   var response = await fetch("recipes.json");
   var json = await response.json();
   for(const person in json) {
-    const li_person_name = document.createElement("li");
-    const a_person_name = document.createElement("a");
+    var li_person_name = document.createElement("li");
+    var a_person_name = document.createElement("a");
     a_person_name.href = "#";
     a_person_name.textContent = person;
     li_person_name.appendChild(a_person_name);
+    console.log(li_person_name);
+    console.log(navbar);
     for(const recipe of json[person]) {
       nav.innerHTML += "<a href=" + person + "/" + recipe[0] + ">" + recipe[0] + "</a>";
     }
