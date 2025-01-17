@@ -51,4 +51,15 @@ async function navigation()
   }
 };
 
+
+var button = document.getElementById("random");
+button.onclick = function () {
+  const random = Math.floor(Math.random() * recipes.length);
+  var div = document.getElementById("links");
+  var link = document.createElement("a");
+  link.href = recipes[random];
+  link.textContent = recipes[random];
+  div.appendChild(link);
+}
+
 navigation();
