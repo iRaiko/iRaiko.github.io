@@ -1,12 +1,11 @@
 var recipes = [];
 var catagories = {};
 
-console.log("test");
-
 var button = document.getElementById("getJson");
 var div = document.getElementById("json");
 var nav = document.getElementById("navigation");
 var navbar = document.getElementById("navbar");
+console.log(navbar);
 button.innerHTML = "get json";
 
 button.onclick = async function() 
