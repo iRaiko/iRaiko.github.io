@@ -47,6 +47,7 @@ button.onclick = async function()
         li_recipe_name.appendChild(a_recipe_name);
         ul_catagory_name.appendChild(li_recipe_name);
       }
+      ul_person_name.appendChild(li_catagory_name);
     }
     var navbar = document.getElementById("navbar");
     navbar.appendChild(li_person_name);
