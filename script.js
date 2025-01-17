@@ -13,6 +13,7 @@ button.onclick = async function()
   var response = await fetch("recipes.json");
   var json = await response.json();
   for(const person in json) {
+    var navbar = document.getElementById("navbar");
     var li_person_name = document.createElement("li");
     var a_person_name = document.createElement("a");
     a_person_name.href = "#";
