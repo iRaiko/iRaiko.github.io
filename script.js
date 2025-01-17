@@ -23,7 +23,7 @@ async function getJson() {
   return fetch("recipes.json").then((response) => response.json());
 }
 var template = document.getElementById("randomTemplate");
-var clicky = document.getElementById("testClass");
+var clicky = document.getElementById("clicky");
 var buttons = document.getElementById("buttons");
 
 clicky.onclick = function() {
