@@ -54,15 +54,28 @@ async function navigation()
 
 var button = document.getElementById("random");
 var input = document.getElementById("randomCount");
+var template = document.getElementById("template");
 button.onclick = function () {
   var div = document.getElementById("links");
   div.innerHTML = '';
   for(var i = 0; i < Number(input.value); i++) {
     const random = Math.floor(Math.random() * recipes.length);
-    var link = document.createElement("a");
+
+    const clone = template.cloneNode(true);
+    clone.style.display = '';
+
+    const link = clone.querySelector(".link");
+    const reroll = clone.querySelector(".reroll");
+
     link.href = recipes[random];
     link.textContent = recipes[random];
-    div.appendChild(link);
+
+    reroll.onclick = function () {
+      const random = Math.floor(Math.random() * recipes.length);
+      link.href = recipes[random];
+      link.textContent = recipes[random];
+    }
+    div.appendChild(clone);
   }
 }
 

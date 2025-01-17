@@ -1,6 +1,8 @@
 {
     "Raiko": [ 
-        ["SpaghettiCarbonara.html", "Beans", "Spaghetti"],
+        ["SpaghettiCarbonara", "Spaghetti"],
+        ["Spaghetti", "Spaghetti"],
+        ["SpaghettiAglioEOlio", "Spaghetti"],
         ["Tortilla", "Spanish", "Beans"]
     ],
     "Emmie": [ [] ]
