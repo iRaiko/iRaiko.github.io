@@ -1,12 +1,7 @@
 var recipes = [];
 var catagories = {};
 
-var button = document.getElementById("getJson");
-var div = document.getElementById("json");
-var nav = document.getElementById("navigation");
-button.innerHTML = "get json";
-
-button.onclick = async function() 
+async function navigation() 
 { 
   var response = await fetch("recipes.json");
   var json = await response.json();
@@ -42,7 +37,9 @@ button.onclick = async function()
       for(const recipe of catagories[person][catagory]) {
         var li_recipe_name = document.createElement("li");
         var a_recipe_name = document.createElement("a");
-        a_recipe_name.href = person + "/" + recipe;
+        var recipe_link = person + "/" + recipe;
+        recipes.push(recipe_link);
+        a_recipe_name.href = recipe_link;
         a_recipe_name.textContent = recipe;
         li_recipe_name.appendChild(a_recipe_name);
         ul_catagory_name.appendChild(li_recipe_name);
@@ -52,21 +49,6 @@ button.onclick = async function()
     var navbar = document.getElementById("navbar");
     navbar.appendChild(li_person_name);
   }
-  console.log(catagories);
-  console.log(json);
-  alert('clicked'); 
 };
-var navbar = document.getElementById("navbar");
-console.log(navbar);
 
-
-async function getJson() {
-  return fetch("recipes.json").then((response) => response.json());
-}
-var template = document.getElementById("buttonTemplate");
-var buttons = document.getElementById("buttons");
-buttons.appendChild(template.cloneNode(true));
-
-
-
-
+navigation();
