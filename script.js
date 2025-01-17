@@ -12,6 +12,7 @@ button.onclick = async function()
   var json = await response.json();
   for(const person in json) {
     catagories[person] = {};
+    catagories[person]["All"] = [];
     var li_person_name = document.createElement("li");
     var ul_person_name = document.createElement("ul");
     ul_person_name.classList.add("nestlist");
@@ -22,9 +23,10 @@ button.onclick = async function()
     li_person_name.appendChild(ul_person_name);
     for(const recipe of json[person]) {
       nav.innerHTML += "<a href=" + person + "/" + recipe[0] + ">" + recipe[0] + "</a>";
-      for(const t of recipe.slice(1)) {
-        catagories[person]["All"] = recipe[0];
-        catagories[person][t] = recipe[0];
+      for(const catagory of recipe.slice(1)) {
+        catagories[person]["All"].push(recipe[0]);
+        catagories[person][catagory] = catagories[person][catagory] || [];
+        catagories[person][catagory].push(recipe[0]);
       }
     }
     var navbar = document.getElementById("navbar");
