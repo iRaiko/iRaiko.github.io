@@ -3,7 +3,12 @@
         ["SpaghettiCarbonara", "Spaghetti"],
         ["Spaghetti", "Spaghetti"],
         ["SpaghettiAglioEOlio", "Spaghetti"],
-        ["Tortilla", "Spanish", "Beans"]
+        ["Tortilla", "Spanish"],
+        ["Kapsalon", "Dutch"],
+        ["MexicanKapsalon", "Mexican"],
+        ["Pokebowl", "Hawaii"],
+        ["MexicanPokebowl", "Mexican"],
+        ["Hamburger", "Burger"]
     ],
     "Emmie": [ [] ]
 }
