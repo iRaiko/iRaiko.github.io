@@ -6,6 +6,7 @@ console.log("test");
 var button = document.getElementById("getJson");
 var div = document.getElementById("json");
 var nav = document.getElementById("navigation");
+var nav = document.getElementById("navbar");
 button.innerHTML = "get json";
 
 button.onclick = async function() 
@@ -13,7 +14,7 @@ button.onclick = async function()
   var response = await fetch("recipes.json");
   var json = await response.json();
   for(const person in json) {
-    for(const recipe in json[person]) {
+    for(const recipe of json[person]) {
       nav.innerHTML += "<a href=" + person + "/" + recipe[0] + ">" + recipe[0] + "</a>";
     }
   }
