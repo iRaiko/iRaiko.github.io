@@ -15,7 +15,10 @@
         ["Fried rice", "Rice"],
         ["Burrito", "Mexican"],
         ["Enchiladas", "Mexican"],
-        ["LemonChicken", "Rice"]
+        ["LemonChicken", "Rice"],
+        ["Chanko", "Asian"],
+        ["Quessadillas", "Mexican"],
+        ["BoulletALaLiegeoise", "French"]
     ],
     "Emmie": [ [] ]
 }
