@@ -30,7 +30,7 @@ button.onclick = async function()
     a_person_name.textContent = person;
     li_person_name.appendChild(a_person_name);
     li_person_name.appendChild(ul_person_name);
-    for(const catagory in person) {
+    for(const catagory in catagories[person]) {
       var ul_catagory_name = document.createElement("ul");
       var li_catagory_name = document.createElement("li");
       var a_catagory_name = document.createElement("a");
