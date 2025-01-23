@@ -22,7 +22,10 @@
         ["CheeseChilli", "Mexican"],
         ["Chilli", "Mexican"],
         ["ShepardsPie", "English"],
-        ["Gratin", "Potato"]
+        ["Gratin", "Potato"],
+        ["Shakshuka", "Vegeterian"],
+        ["ShrimpPinapleTaco", "Mexican"],
+        ["Empanadas", "Mexican", "Snack"]
     ],
     "Emmie": [ [] ]
 }
