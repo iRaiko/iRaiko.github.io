@@ -1,0 +1,9 @@
+{
+  "name": "iRaiko Paper Match",
+  "short_name": "iRaiko Match",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#090b10",
+  "background_color": "#090b10",
+  "orientation": "landscape-primary"
+}

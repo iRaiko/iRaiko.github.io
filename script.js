@@ -197,6 +197,37 @@ function loadSettings() {
   });
 }
 
+async function enterFullscreen() {
+  const target = document.documentElement;
+  if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
+    return;
+  }
+
+  const request = target.requestFullscreen || target.webkitRequestFullscreen || target.msRequestFullscreen;
+  if (request) {
+    try {
+      await request.call(target);
+    } catch (error) {
+      console.warn("Fullscreen request failed", error);
+    }
+  }
+}
+
+async function exitFullscreen() {
+  if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+    return;
+  }
+
+  const exit = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+  if (exit) {
+    try {
+      await exit.call(document);
+    } catch (error) {
+      console.warn("Exit fullscreen failed", error);
+    }
+  }
+}
+
 function handleFormUpdate() {
   const settings = getCurrentSettings();
   saveSettings(settings);
@@ -300,10 +331,14 @@ function initSettingsPage() {
   document.getElementById("start").addEventListener("click", async () => {
     const settings = getCurrentSettings();
     saveSettings(settings);
+    await enterFullscreen();
     await showGameScreen(settings);
   });
 
-  document.getElementById("quitRun").addEventListener("click", hideGameScreen);
+  document.getElementById("quitRun").addEventListener("click", async () => {
+    hideGameScreen();
+    await exitFullscreen();
+  });
 }
 
 document.addEventListener("DOMContentLoaded", initSettingsPage);
