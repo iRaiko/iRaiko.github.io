@@ -1,0 +1,32 @@
+[
+    [
+        "Red", "赤", "あか", "red.png"
+    ],
+    [
+        "Blue", "青", "あお", "blue.png"
+    ],
+    [
+        "Green", "緑", "みどり", "green.png"
+    ],
+    [
+        "Yellow", "黄色", "きいろ", "yellow.png"
+    ],
+    [
+        "White", "白", "しろ", "white.png"
+    ],
+    [
+        "Black", "黒", "くろ", "black.png"
+    ],
+    [
+        "Brown", "茶色", "ちゃいろ", "brown.png"
+    ],
+    [
+        "Grey", "灰色", "はいいろ", "grey.png"
+    ],
+    [
+        "Purple", "紫", "むらさき", "purple.png"
+    ],
+    [
+        "Orange", "橙色", "だいだいいろ", "orange.png"
+    ]
+]
