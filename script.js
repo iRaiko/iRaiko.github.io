@@ -62,8 +62,7 @@ function weightedRandom() {
 
   if (r < 0.10) return 1;
   if (r < 0.60) return 2;
-  if (r < 0.90) return 3;
-  return 4;
+  return 3;
 }
 
 function generateTable(deck, gridSize) {
@@ -92,6 +91,7 @@ function generateTable(deck, gridSize) {
 }
 
 async function test() {
+    console.log(await createEntryPool(["colours"]));
     pool = await createEntryPool(["colours"]);
     console.log(pool);
     deck = generateDeck(pool, GRID_SIZE);
@@ -164,6 +164,7 @@ function makeMove(card, start, end) {
 }
 
 function checkWinLose() {
+    console.log(deck);
     if (deck.every(obj => obj.paired)) {
         deck = [];
         table = [];
@@ -264,15 +265,6 @@ function snapCard(card) {
 
   var col = Math.round(left / cellSize);
   var row = Math.round(top / cellSize);
-
-//   if (col < 0 || col > (GRID_SIZE - 1) || row < 0 || row > (GRID_SIZE - 1)) {
-//     cardinfo = table[card.dataset.id];
-//     col = Math.round(startX / cellSize);
-//     row = Math.round(startY / cellSize);
-//   }
-
-//   card.style.left = `${col * cellSize}px`;
-//   card.style.top = `${row * cellSize}px`;
 
   return { row, col };
 }
