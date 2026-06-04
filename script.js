@@ -179,6 +179,7 @@ function checkForSoloCard(start) {
 
 function setupCardMovement(card) {
   card.addEventListener("pointerdown", e => {
+      e.preventDefault();
     dragging = true;
 
     const rect = card.getBoundingClientRect();
@@ -208,6 +209,7 @@ function setupCardMovement(card) {
   });
 
   card.addEventListener("pointermove", e => {
+      e.preventDefault();
     if (!dragging) return;
 
     const boardRect = document
@@ -222,6 +224,7 @@ function setupCardMovement(card) {
   });
 
   card.addEventListener("pointerup", e => {
+      e.preventDefault();
     dragging = false;
     const position = snapCard(card);
     makeMove(card, {row: startRow, col: startCol}, position);
