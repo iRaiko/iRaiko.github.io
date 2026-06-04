@@ -1,5 +1,5 @@
 const options = ["colours"]
-var GRID_SIZE = 5;
+var GRID_SIZE = 4;
 var pool = [];
 var deck = [];
 var table = [];
@@ -112,11 +112,19 @@ function drawBoard(table) {
 
     for (let y = 0; y < table.length; y++) {
         for (let x = 0; x < table[0].length; x++) {
-            const cardObject = table[y][x][0];
+            const cardObject = table[y][x].at(-1);
             if (cardObject) {
                 const card = document.createElement("div");
                 card.classList.add("card");
-                card.textContent = cardObject.poolIndex;//pool[cardObject.poolIndex][cardObject.variant];
+                const cardContent = document.createElement("div");
+                cardContent.textContent = cardObject.poolIndex; //pool[cardObject.poolIndex][cardObject.variant];
+                card.appendChild(cardContent);
+                if (table[y][x].length > 1) {
+                    cardContent.classList.add("paperStack");
+                }
+                else {
+                    cardContent.classList.add("paper");
+                }
                 card.style.width = `${100 / GRID_SIZE}%`;
                 card.style.height = `${100 / GRID_SIZE}%`;
                 card.style.left = `${y * (100 / GRID_SIZE)}%`;
@@ -166,15 +174,7 @@ function checkWinLose() {
 
 function checkForSoloCard(start) {
     const card = table[start.col][start.row][0];
-    for (let y = 0; y < table.length; y++) {
-        for (let x = 0; x < table[0].length; x++) {
-            const checkCard = table[y][x][0];
-            if (checkCard && checkCard.poolIndex == card.poolIndex && checkCard.variant != card.variant) {
-                return false;
-            }
-        }
-    }
-    return true;
+    return deck.every(obj => !(obj.poolIndex == card.poolIndex && obj.variant != card.variant));
 }
 
 function setupCardMovement(card) {

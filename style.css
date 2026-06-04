@@ -64,10 +64,39 @@ body {
 }
 
 .card {
-    border: 1px solid black;
-    border-radius: 5px;
-    background-color: papayawhip;
-    position: absolute;
-    touch-action: none;
-    cursor: grab;
+  position: absolute;
+  touch-action: none;
+  cursor: grab;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.card:hover {
+  z-index: 100;
+}
+
+.paperStack, .paper {
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: papayawhip;
+  width: 70%;
+  height: 40%;
+  align-content: center;
+}
+
+.paperStack {
+  box-shadow:
+    /* The top layer shadow */
+    0 -1px 1px rgba(0,0,0,0.15),
+    /* The second layer */
+    0 -10px 0 -5px #eee,
+    /* The second layer shadow */
+    0 -10px 1px -4px rgba(0,0,0,0.15),
+     /* The third layer */
+    0 -20px 0 -10px #eee,
+    /* The third layer shadow */
+    0 -20px 1px -9px rgba(0,0,0,0.15);
 }
