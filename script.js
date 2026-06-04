@@ -3,6 +3,33 @@ var GRID_SIZE = 4;
 var pool = [];
 var deck = [];
 var table = [];
+var fullscreen = false;
+
+function goFullscreen() {
+    if (fullscreen) {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+        fullscreen = false;
+        return;
+    }
+  const elem = document.documentElement; // whole page
+
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { 
+    // Safari (older)
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { 
+    // IE/Edge legacy
+    elem.msRequestFullscreen();
+  }
+  fullscreen = true;
+}
 
 async function loadOptionData(option) {
   const data = await fetch(`${option}.json`).then((res) => res.json());
