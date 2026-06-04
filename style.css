@@ -51,15 +51,19 @@ body {
 }
 
 .board {
-    background-color: brown;
-    height: 100%;
-    aspect-ratio: 1;
-    max-width: 100%;
+  background-color: brown;
+  /* Make the board a true square that fits the available viewport.
+     Use the smaller of the viewport width and height so it stays square
+     in both portrait and landscape. */
+  width: min(100%, 100dvh);
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
 
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 4px;
-    position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+  position: relative;
 }
 
 .card {
