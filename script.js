@@ -1,48 +1,8 @@
-const settingsKey = "iraiko-game-settings";
-const options = ["colours", "food"];
-
-function createSubtypeOptions() {
-  const list = document.getElementById("options");
-  list.innerHTML = "";
-
-  options.forEach((option) => {
-    const wrapper = document.createElement("label");
-    wrapper.className = "option-item";
-
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.name = "subtypes";
-    checkbox.value = option;
-    checkbox.id = `subtype-${option}`;
-
-    const labelText = document.createElement("span");
-    labelText.textContent = option;
-
-    wrapper.appendChild(checkbox);
-    wrapper.appendChild(labelText);
-    list.appendChild(wrapper);
-  });
-}
-
-function getCurrentSettings() {
-  const roundTime = Number(document.getElementById("roundTime").value) || 60;
-  const chillMode = document.getElementById("chillMode").checked;
-  const gridSize = Number(document.getElementById("gridSize").value) || 8;
-  const selectedSubtypes = Array.from(document.querySelectorAll("input[name='subtypes']:checked")).map(
-    (input) => input.value
-  );
-
-  return {
-    roundTime,
-    chillMode,
-    gridSize,
-    subtypes: selectedSubtypes.length ? selectedSubtypes : [...options],
-  };
-}
-
-let timerInterval = null;
-let remainingSeconds = 0;
-let currentPool = [];
+const options = ["colours"]
+var GRID_SIZE = 5;
+var pool = [];
+var deck = [];
+var table = [];
 
 async function loadOptionData(option) {
   const data = await fetch(`${option}.json`).then((res) => res.json());
@@ -57,288 +17,261 @@ async function createEntryPool(selectedOptions) {
   return pool;
 }
 
-function chooseVariantCount(maxSlots) {
-  if (maxSlots === 1) {
-    return 1;
-  }
-
-  const baseWeights = [0.1, 0.4, 0.4, 0.1].slice(0, maxSlots);
-  const total = baseWeights.reduce((sum, weight) => sum + weight, 0);
-  const normalized = baseWeights.map((weight) => weight / total);
-  const roll = Math.random();
-  let running = 0;
-
-  for (let i = 0; i < normalized.length; i += 1) {
-    running += normalized[i];
-    if (roll <= running) {
-      return i + 1;
+function generateDeck(pool, gridSize) {
+    const variation = Math.floor(Math.random() * (100-60+1) + 60) / 100;
+    var cardCount = gridSize * gridSize;
+    cardCount = Math.floor(cardCount * variation);
+    if (!pool.length || cardCount <= 0) {
+        return [];
     }
-  }
 
-  return maxSlots;
+    const deck = [];
+    let remainingSlots = cardCount;
+
+    var totalOptions = [];
+
+    for(const [index, card] of pool.entries()) {
+        cardOptions = [];
+        for (const [variantIndex, variant] of card.entries()) {
+            cardOptions.push({poolIndex: index, variant: variantIndex, paired: false});
+        }
+        totalOptions.push(cardOptions);
+    }
+
+    while (remainingSlots > 0) {
+        const index = Math.floor(Math.random() * totalOptions.length)
+        const cardsForDeck = totalOptions[index];
+
+        const count = Math.min(remainingSlots, weightedRandom());
+
+        for (let i = 0; i < count; i++) {
+            const cardIndex = Math.floor(Math.random() * cardsForDeck.length);
+            deck.push(cardsForDeck[cardIndex]);
+            cardsForDeck.splice(cardIndex, 1);
+        }
+
+        totalOptions.splice(index, 1);
+
+        remainingSlots -= count;
+    }
+    return deck;
 }
 
-function generateTable(pool, gridSize) {
-  const variation = Math.floor(Math.random() * (100-60+1) + 60) / 100;
-  var cardCount = gridSize * gridSize;
-  cardCount = Math.floor(cardCount * variation);
-  if (!pool.length || cardCount <= 0) {
-    return [];
-  }
+function weightedRandom() {
+  const r = Math.random();
 
-  const deck = [];
-  let remainingSlots = cardCount;
+  if (r < 0.10) return 1;
+  if (r < 0.60) return 2;
+  if (r < 0.90) return 3;
+  return 4;
+}
 
-  while (remainingSlots > 0) {
-    // ensure we pick a pool index that isn't already in the deck when possible
-    const usedIndices = new Set(deck.map((e) => e.poolIndex));
-    let poolIndex;
-    if (usedIndices.size >= pool.length) {
-      // all pool entries are already used; fall back to allowing duplicates
-      poolIndex = Math.floor(Math.random() * pool.length);
+function generateTable(deck, gridSize) {
+    const board = Array.from({ length: gridSize }, () =>
+        Array.from({ length: gridSize }, () => [])
+    );
+
+    const positions = [];
+
+    for (let y = 0; y < gridSize; y++) {
+        for (let x = 0; x < gridSize; x++) {
+            positions.push({ x, y });
+        }
+    }
+
+    for (let i = positions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [positions[i], positions[j]] = [positions[j], positions[i]];
+    }
+
+    for (let i = 0; i < deck.length; i++) {
+        const { x, y } = positions[i];
+        board[y][x].push(deck[i]);
+    }
+    return board;
+}
+
+async function test() {
+    pool = await createEntryPool(["colours"]);
+    console.log(pool);
+    deck = generateDeck(pool, GRID_SIZE);
+    console.log(deck);
+    table = generateTable(deck, GRID_SIZE);
+    console.log(table);
+    drawBoard(table);
+}
+
+function redrawBoard(table)
+{
+    while(board.lastElementChild) { board.removeChild(board.lastElementChild);}
+    drawBoard(table);
+}
+
+function drawBoard(table) {
+    const board = document.getElementById("board");
+
+    for (let y = 0; y < table.length; y++) {
+        for (let x = 0; x < table[0].length; x++) {
+            const cardObject = table[y][x][0];
+            if (cardObject) {
+                const card = document.createElement("div");
+                card.classList.add("card");
+                card.textContent = cardObject.poolIndex;//pool[cardObject.poolIndex][cardObject.variant];
+                card.style.width = `${100 / GRID_SIZE}%`;
+                card.style.height = `${100 / GRID_SIZE}%`;
+                card.style.left = `${y * (100 / GRID_SIZE)}%`;
+                card.style.top = `${x * (100 / GRID_SIZE)}%`;    
+                board.appendChild(card);  
+                setupCardMovement(card);
+            }
+        }
+    }
+}
+
+function makeMove(card, start, end) {
+    if (start.row == end.row && start.col == end.col) {
+        moveCard(card, start.col, start.row);
+    } else if (end.col < 0 || end.col > (GRID_SIZE - 1) || end.row < 0 || end.row > (GRID_SIZE - 1))
+    {
+        if (checkForSoloCard(start)) {
+            table[start.col][start.row][0].paired = true;
+            table[start.col][start.row] = [];
+        } else {
+            moveCard(card, start.col, start.row);
+        }
     } else {
-      do {
-        poolIndex = Math.floor(Math.random() * pool.length);
-      } while (usedIndices.has(poolIndex));
+        const startCard = table[start.col][start.row][0];
+        const endCard = table[end.col][end.row][0];
+        const sameVariant = (startCard && endCard && startCard.poolIndex == endCard.poolIndex);
+
+        if (sameVariant) {
+            moveCard(card, end.col, end.row);
+            table[end.col][end.row].push(...table[start.col][start.row]);
+            table[end.col][end.row].forEach(obj => {obj.paired = true});
+            table[start.col][start.row] = [];
+        }
     }
-    const card = pool[poolIndex];
-    const maxVariants = Math.min(4, remainingSlots);
-    const variantCount = chooseVariantCount(maxVariants);
+    checkWinLose();
+    redrawBoard(table);
+}
 
-    // derive textual variants from the card entry (exclude likely filenames)
-    let variants = [];
-    if (Array.isArray(card)) {
-      variants = card.filter((v) => typeof v === "string" && !/\.[a-zA-Z0-9]{2,5}$/.test(v));
-      variants = variants.map(String);
-    } else {
-      variants = [String(card)];
+function checkWinLose() {
+    if (deck.every(obj => obj.paired)) {
+        deck = [];
+        table = [];
+        deck = generateDeck(pool, GRID_SIZE);
+        table = generateTable(deck, GRID_SIZE);
     }
-    if (!variants.length && Array.isArray(card)) {
-      variants = card.map(String);
+}
+
+function checkForSoloCard(start) {
+    const card = table[start.col][start.row][0];
+    for (let y = 0; y < table.length; y++) {
+        for (let x = 0; x < table[0].length; x++) {
+            const checkCard = table[y][x][0];
+            if (checkCard && checkCard.poolIndex == card.poolIndex && checkCard.variant != card.variant) {
+                return false;
+            }
+        }
     }
+    return true;
+}
 
-    // shuffle variants so multiple placed copies get different text first
-    for (let i = variants.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [variants[i], variants[j]] = [variants[j], variants[i]];
-    }
+function setupCardMovement(card) {
+  card.addEventListener("pointerdown", e => {
+    dragging = true;
 
-    deck.push({ card, variantCount, poolIndex, variants });
+    const rect = card.getBoundingClientRect();
 
-    remainingSlots -= variantCount;
-  }
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
 
-  // Build list of all possible cell indices and shuffle them
-  const totalCells = gridSize * gridSize;
-  const indices = Array.from({ length: totalCells }, (_, i) => i);
-  for (let i = indices.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [indices[i], indices[j]] = [indices[j], indices[i]];
-  }
+    card.setPointerCapture(e.pointerId);
 
-  // Assign positions for each variant of each deck card
-  const table = [];
-  let pointer = 0;
+    const board = document.querySelector(".board");
+    const boardRect = board.getBoundingClientRect();
 
-  deck.forEach((entry, entryIndex) => {
-    for (let v = 0; v < entry.variantCount; v += 1) {
-      if (pointer >= indices.length) break;
-      const idx = indices[pointer++];
-      const row = Math.floor(idx / gridSize);
-      const col = idx % gridSize;
-      const variantText = (entry.variants && entry.variants.length)
-        ? entry.variants[v % entry.variants.length]
-        : (Array.isArray(entry.card) ? String(entry.card[0]) : String(entry.card));
+    const cellSize = boardRect.width / GRID_SIZE;
 
-      table.push({
-        id: entry.poolIndex,
-        card: entry.card,
-        row,
-        col,
-        variant: variantText,
-      });
-    }
+    const leftStyle = card.style.left;
+    const topStyle = card.style.top;
+
+    const left = leftStyle.endsWith("%")
+      ? (parseFloat(leftStyle) / 100) * boardRect.width
+      : parseFloat(leftStyle);
+    const top = topStyle.endsWith("%")
+      ? (parseFloat(topStyle) / 100) * boardRect.height
+      : parseFloat(topStyle);
+
+    startCol = Math.round(left / cellSize);
+    startRow = Math.round(top / cellSize);
   });
 
-  return table;
-}
+  card.addEventListener("pointermove", e => {
+    if (!dragging) return;
 
-function saveSettings(settings) {
-  localStorage.setItem(settingsKey, JSON.stringify(settings));
-}
+    const boardRect = document
+      .querySelector(".board")
+      .getBoundingClientRect();
 
-function loadSettings() {
-  const raw = localStorage.getItem(settingsKey);
-  let saved = null;
+    card.style.left =
+      `${e.clientX - boardRect.left - offsetX}px`;
 
-  if (raw) {
-    try {
-      saved = JSON.parse(raw);
-    } catch (error) {
-      console.warn("Failed to parse saved settings", error);
-    }
-  }
+    card.style.top =
+      `${e.clientY - boardRect.top - offsetY}px`;
+  });
 
-  const defaults = {
-    roundTime: 60,
-    chillMode: false,
-    gridSize: 5,
-    subtypes: [...options],
-  };
-
-  const current = saved ? { ...defaults, ...saved } : defaults;
-
-  document.getElementById("roundTime").value = current.roundTime;
-  document.getElementById("chillMode").checked = current.chillMode;
-  document.getElementById("gridSize").value = current.gridSize;
-
-  document.querySelectorAll("input[name='subtypes']").forEach((input) => {
-    input.checked = current.subtypes.includes(input.value);
+  card.addEventListener("pointerup", e => {
+    dragging = false;
+    const position = snapCard(card);
+    makeMove(card, {row: startRow, col: startCol}, position);
   });
 }
 
-async function enterFullscreen() {
-  const target = document.documentElement;
-  if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
-    return;
-  }
+let dragging = false;
+let offsetX = 0;
+let offsetY = 0;
+let startCol = 0;
+let startRow = 0;
 
-  const request = target.requestFullscreen || target.webkitRequestFullscreen || target.msRequestFullscreen;
-  if (request) {
-    try {
-      await request.call(target);
-    } catch (error) {
-      console.warn("Fullscreen request failed", error);
-    }
-  }
+function moveCard(card, col, row) {
+    const board = document.querySelector(".board");
+    const rect = board.getBoundingClientRect();
+
+    const cellSize = rect.width / GRID_SIZE;
+    card.style.left = `${col * cellSize}px`;
+    card.style.top = `${row * cellSize}px`;
 }
 
-async function exitFullscreen() {
-  if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
-    return;
-  }
+function snapCard(card) {
+  const board = document.querySelector(".board");
+  const rect = board.getBoundingClientRect();
 
-  const exit = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
-  if (exit) {
-    try {
-      await exit.call(document);
-    } catch (error) {
-      console.warn("Exit fullscreen failed", error);
-    }
-  }
+  const cellSize = rect.width / GRID_SIZE;
+
+  const leftStyle = card.style.left;
+  const topStyle = card.style.top;
+
+  const left = leftStyle.endsWith("%")
+    ? (parseFloat(leftStyle) / 100) * rect.width
+    : parseFloat(leftStyle);
+  const top = topStyle.endsWith("%")
+    ? (parseFloat(topStyle) / 100) * rect.height
+    : parseFloat(topStyle);
+
+  var col = Math.round(left / cellSize);
+  var row = Math.round(top / cellSize);
+
+//   if (col < 0 || col > (GRID_SIZE - 1) || row < 0 || row > (GRID_SIZE - 1)) {
+//     cardinfo = table[card.dataset.id];
+//     col = Math.round(startX / cellSize);
+//     row = Math.round(startY / cellSize);
+//   }
+
+//   card.style.left = `${col * cellSize}px`;
+//   card.style.top = `${row * cellSize}px`;
+
+  return { row, col };
 }
 
-function handleFormUpdate() {
-  const settings = getCurrentSettings();
-  saveSettings(settings);
-}
-
-function updateGamePanel(settings, poolCount = 0, tableCards = []) {
-  const scoreValue = document.getElementById("scoreValue");
-  const timerValue = document.getElementById("timerValue");
-
-  scoreValue.textContent = "0";
-  timerValue.textContent = settings.chillMode ? "Chill" : `${settings.roundTime}s`;
-
-  const gameTable = document.getElementById("gameTable");
-  if (!tableCards.length) {
-    gameTable.innerHTML = `
-      <p class="game-table__placeholder">
-        Starting a ${settings.gridSize}×${settings.gridSize} game with ${poolCount} pool entries.
-      </p>
-    `;
-    return;
-  }
-
-  // Render grid and place cards
-  gameTable.innerHTML = "";
-  const grid = document.createElement("div");
-  grid.className = "game-grid";
-  grid.style.gridTemplateColumns = `repeat(${settings.gridSize}, 1fr)`;
-  grid.style.gridTemplateRows = `repeat(${settings.gridSize}, 1fr)`;
-  grid.style.minHeight = "320px";
-
-  tableCards.forEach((placed) => {
-    const cardEl = document.createElement("div");
-    cardEl.className = "card";
-    const content = placed.variant ?? (Array.isArray(placed.card) ? placed.card[0] : String(placed.card));
-    cardEl.textContent = content;
-    cardEl.style.gridColumnStart = placed.col + 1;
-    cardEl.style.gridRowStart = placed.row + 1;
-    grid.appendChild(cardEl);
-  });
-
-  // Add a small header summary above the grid
-  const summary = document.createElement("p");
-  summary.className = "game-table__placeholder";
-  summary.textContent = `Generated ${tableCards.length} cards from ${poolCount} pool entries.`;
-
-  gameTable.appendChild(summary);
-  gameTable.appendChild(grid);
-}
-
-function startTimer(settings) {
-  const timerValue = document.getElementById("timerValue");
-
-  if (timerInterval) {
-    clearInterval(timerInterval);
-  }
-
-  if (settings.chillMode) {
-    timerValue.textContent = "Chill";
-    return;
-  }
-
-  remainingSeconds = settings.roundTime;
-  timerValue.textContent = `${remainingSeconds}s`;
-
-  timerInterval = setInterval(() => {
-    remainingSeconds -= 1;
-    if (remainingSeconds < 0) {
-      clearInterval(timerInterval);
-      timerInterval = null;
-      timerValue.textContent = "Done";
-      return;
-    }
-    timerValue.textContent = `${remainingSeconds}s`;
-  }, 1000);
-}
-
-async function showGameScreen(settings) {
-  currentPool = await createEntryPool(settings.subtypes);
-  const tableCards = generateTable(currentPool, settings.gridSize);
-  console.log(tableCards);
-  document.querySelector(".settings-card").classList.add("hidden");
-  document.getElementById("gameScreen").classList.remove("hidden");
-  updateGamePanel(settings, currentPool.length, tableCards);
-  startTimer(settings);
-}
-
-function hideGameScreen() {
-  document.querySelector(".settings-card").classList.remove("hidden");
-  document.getElementById("gameScreen").classList.add("hidden");
-  if (timerInterval) {
-    clearInterval(timerInterval);
-    timerInterval = null;
-  }
-}
-
-function initSettingsPage() {
-  createSubtypeOptions();
-  loadSettings();
-
-  document.getElementById("settingsForm").addEventListener("input", handleFormUpdate);
-  document.getElementById("start").addEventListener("click", async () => {
-    const settings = getCurrentSettings();
-    saveSettings(settings);
-    await enterFullscreen();
-    await showGameScreen(settings);
-  });
-
-  document.getElementById("quitRun").addEventListener("click", async () => {
-    hideGameScreen();
-    await exitFullscreen();
-  });
-}
-
-document.addEventListener("DOMContentLoaded", initSettingsPage);
+test();

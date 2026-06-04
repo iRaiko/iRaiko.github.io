@@ -1,463 +1,72 @@
-:root {
-  color-scheme: dark;
-  color: #efe9e1;
-  background: #121418;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
 * {
   box-sizing: border-box;
 }
 
-html,
 body {
-  min-height: 100%;
   margin: 0;
-  padding: 0;
 }
 
-body {
-  background: radial-gradient(circle at top left, rgba(40, 79, 126, 0.3), transparent 28%),
-              radial-gradient(circle at bottom right, rgba(255, 182, 70, 0.16), transparent 28%),
-              #090b10;
+.app {
+  height: 100dvh;
 }
 
-.hero {
-  padding: 3rem 1.5rem 1.75rem;
-  text-align: center;
+/* Portrait */
+@media (orientation: portrait) {
+  .app {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+
+  .stats,
+  .trash {
+    padding: 1rem;
+    text-align: center;
+  }
 }
 
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.25em;
-  font-size: 0.85rem;
-  color: #8ca2c8;
-  margin: 0 0 0.75rem;
+/* Landscape */
+@media (orientation: landscape) {
+  .app {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .stats,
+  .trash {
+    width: 120px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+}  
+
+.game-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
-.hero h1 {
-  margin: 0;
-  font-size: clamp(2rem, 4vw, 3.25rem);
-  letter-spacing: -0.05em;
-}
+.board {
+    background-color: brown;
+    height: 100%;
+    aspect-ratio: 1;
+    max-width: 100%;
 
-.hero p {
-  max-width: 40rem;
-  margin: 1rem auto 0;
-  color: #c9d1e0;
-}
-
-.page-shell {
-  max-width: 980px;
-  margin: 0 auto 1.25rem;
-  padding: 0 1rem 1rem;
-}
-
-.settings-card {
-  background: rgba(18, 22, 30, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 32px;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
-  padding: 1.6rem;
-  backdrop-filter: blur(14px);
-}
-
-.settings-card__intro {
-  margin: 0 0 1rem;
-  color: #b3bdd7;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.game-screen {
-  display: grid;
-  grid-template-columns: minmax(160px, 1fr) minmax(260px, 2fr) minmax(140px, 1fr);
-  gap: 1rem;
-  min-height: calc(100vh - 2rem);
-  align-items: stretch;
-}
-
-.game-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.game-panel--left,
-.game-panel--right {
-  justify-content: flex-start;
-}
-
-.game-panel--center {
-  justify-content: center;
-}
-
-.game-status {
-  display: grid;
-  gap: 0.75rem;
-  padding-top: 0.5rem;
-}
-
-.game-metric {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.metric-label {
-  font-size: 0.9rem;
-  color: #b3bdd7;
-}
-
-.metric-value {
-  font-size: 1.15rem;
-  font-weight: 700;
-}
-
-.game-table {
-  width: 100%;
-  min-height: 360px;
-  border-radius: 26px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  display: grid;
-  place-items: center;
-  padding: 1.25rem;
-}
-
-.game-grid {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    position: relative;
 }
 
 .card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.6rem 0.8rem;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #fff;
-  font-weight: 700;
-  text-align: center;
-  user-select: none;
-}
-
-.game-table__placeholder {
-  margin: 0;
-  color: #d2dae8;
-  text-align: center;
-}
-
-.trashcan {
-  width: 100%;
-  min-height: 120px;
-  display: grid;
-  place-items: center;
-  font-size: 2.5rem;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  cursor: pointer;
-}
-
-.trash-label {
-  margin: 0;
-  color: #b3bdd7;
-  text-align: center;
-}
-
-.secondary-button {
-  width: fit-content;
-  padding: 0.9rem 1.2rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
-  cursor: pointer;
-}
-
-.secondary-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.settings-card__header h2 {
-  margin: 0 0 0.4rem;
-  font-size: 1.8rem;
-}
-
-.settings-card__header p {
-  margin: 0;
-  color: #b3bdd7;
-}
-
-.settings-form {
-  display: grid;
-  gap: 1.2rem;
-}
-
-.field-grid {
-  display: grid;
-  gap: 1rem;
-}
-
-.field-group {
-  display: grid;
-  gap: 0.6rem;
-}
-
-.field-group label,
-.field-group legend {
-  font-weight: 600;
-  color: #e2e8f0;
-}
-
-.field-group input[type="number"] {
-  width: 100%;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.04);
-  color: #f4f7ff;
-  padding: 0.95rem 1rem;
-  font-size: 1rem;
-}
-
-.field-group--inline {
-  align-items: center;
-}
-
-.toggle-wrap {
-  position: relative;
-  width: 58px;
-  height: 32px;
-}
-
-.toggle-wrap input[type="checkbox"] {
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  position: absolute;
-  inset: 0;
-  cursor: pointer;
-}
-
-.toggle-ui {
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  transition: background 0.2s ease;
-}
-
-.toggle-ui::after {
-  content: "";
-  position: absolute;
-  left: 4px;
-  top: 4px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #fff;
-  transform: translateX(0);
-  transition: transform 0.2s ease;
-}
-
-.toggle-wrap input[type="checkbox"]:checked + .toggle-ui {
-  background: #5d99ff;
-}
-
-.toggle-wrap input[type="checkbox"]:checked + .toggle-ui::after {
-  transform: translateX(26px);
-}
-
-.radio-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.75rem;
-}
-
-.radio-grid label {
-  display: block;
-  padding: 0.9rem 1rem;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.radio-grid input[type="radio"] {
-  margin-right: 0.6rem;
-}
-
-.radio-grid input[type="radio"]:checked + span,
-.radio-grid input[type="radio"]:checked {
-  font-weight: 700;
-}
-
-.options-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-}
-
-.options-grid label {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  padding: 0.95rem 1rem;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  cursor: pointer;
-  flex: 1 1 calc(33.333% - 0.8rem);
-  min-width: 140px;
-}
-
-.options-grid input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-}
-
-.action-button {
-  width: 100%;
-  border: none;
-  border-radius: 18px;
-  padding: 1rem 1.2rem;
-  background: linear-gradient(135deg, #4f7bff, #8f7afc);
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.action-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 18px 35px rgba(79, 123, 255, 0.25);
-}
-
-.settings-summary {
-  margin-top: 1rem;
-  padding: 1.15rem 1.2rem;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.settings-summary h3 {
-  margin: 0 0 0.7rem;
-}
-
-.settings-summary p,
-.settings-summary ul {
-  margin: 0;
-  color: #d2dae8;
-}
-
-.settings-summary ul {
-  padding-left: 1.15rem;
-}
-
-@media (max-width: 640px) {
-  .hero {
-    padding-top: 2rem;
-  }
-
-  .settings-card {
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 900px) and (orientation: landscape), (max-height: 500px) {
-  :root {
-    font-size: 15px;
-  }
-
-  body {
-    background-position: top left, bottom right;
-  }
-
-  .hero {
-    padding: 1.4rem 1rem 1rem;
-  }
-
-  .hero h1 {
-    font-size: clamp(1.8rem, 4vw, 2.4rem);
-  }
-
-  .hero p {
-    max-width: none;
-    margin-top: 0.85rem;
-  }
-
-  .page-shell {
-    max-width: 100%;
-    padding: 0 0.85rem;
-    margin-bottom: 1.2rem;
-  }
-
-  .settings-card {
-    padding: 1.2rem;
-    border-radius: 24px;
-  }
-
-  .settings-card__header {
-    margin-bottom: 1.3rem;
-  }
-
-  .settings-card__header h2 {
-    font-size: 1.45rem;
-  }
-
-  .settings-form {
-    gap: 0.85rem;
-  }
-
-  .field-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .field-group {
-    gap: 0.5rem;
-  }
-
-  .field-group input[type="number"] {
-    padding: 0.85rem 0.95rem;
-  }
-
-  .field-group--inline {
-    gap: 0.75rem;
-  }
-
-  .options-grid,
-  .radio-grid {
-    gap: 0.65rem;
-  }
-
-  .options-grid label,
-  .radio-grid label {
-    padding: 0.85rem 0.95rem;
-  }
-
-  .action-button {
-    padding: 0.9rem 1rem;
-  }
-
-  .settings-summary {
-    padding: 1rem;
-  }
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: papayawhip;
+    position: absolute;
+    touch-action: none;
+    cursor: grab;
 }
