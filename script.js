@@ -117,7 +117,7 @@ function drawBoard(table) {
                 const card = document.createElement("div");
                 card.classList.add("card");
                 const cardContent = document.createElement("div");
-                cardContent.textContent = cardObject.poolIndex; //pool[cardObject.poolIndex][cardObject.variant];
+                cardContent.textContent = pool[cardObject.poolIndex][cardObject.variant];
                 card.appendChild(cardContent);
                 if (table[y][x].length > 1) {
                     cardContent.classList.add("paperStack");

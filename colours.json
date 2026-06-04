@@ -1,32 +1,56 @@
 [
     [
-        "Red", "赤", "あか", "red.png"
+        "Red", "赤", "あか"
     ],
     [
-        "Blue", "青", "あお", "blue.png"
+        "Blue", "青", "あお"
     ],
     [
-        "Green", "緑", "みどり", "green.png"
+        "Green", "緑", "みどり"
     ],
     [
-        "Yellow", "黄色", "きいろ", "yellow.png"
+        "Yellow", "黄色", "きいろ"
     ],
     [
-        "White", "白", "しろ", "white.png"
+        "White", "白", "しろ"
     ],
     [
-        "Black", "黒", "くろ", "black.png"
+        "Black", "黒", "くろ"
     ],
     [
-        "Brown", "茶色", "ちゃいろ", "brown.png"
+        "Brown", "茶色", "ちゃいろ"
     ],
     [
-        "Grey", "灰色", "はいいろ", "grey.png"
+        "Grey", "灰色", "はいいろ"
     ],
     [
-        "Purple", "紫", "むらさき", "purple.png"
+        "Purple", "紫", "むらさき"
     ],
     [
-        "Orange", "橙色", "だいだいいろ", "orange.png"
+        "Orange", "橙色", "だいだいいろ"
+    ],
+    [
+        "Pink", "桃色", "ももいろ"
+    ],
+    [
+        "Crimson", "深紅", "しんく"
+    ],
+    [
+        "Indigo", "藍", "あい"
+    ],
+    [
+        "Vermilion", "朱", "しゅ"
+    ],
+    [
+        "Silver", "銀色", "ぎんいろ"
+    ],
+    [
+        "Gold", "金色", "きんいろ"
+    ],
+    [
+        "Scarlet", "緋色", "ひいろ"
+    ],
+    [
+        "Azure", "空色", "そらいろ"
     ]
 ]
