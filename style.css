@@ -51,7 +51,49 @@ body {
 }
 
 .board {
-  background-color: brown;
+    background:
+    /* soft light patches */
+    radial-gradient(
+      ellipse at 20% 30%,
+      rgba(255,255,255,.04),
+      transparent 45%
+    ),
+
+    radial-gradient(
+      ellipse at 75% 60%,
+      rgba(255,255,255,.03),
+      transparent 40%
+    ),
+
+    /* darker patches */
+    radial-gradient(
+      ellipse at 60% 20%,
+      rgba(0,0,0,.08),
+      transparent 50%
+    ),
+
+    radial-gradient(
+      ellipse at 30% 80%,
+      rgba(0,0,0,.06),
+      transparent 45%
+    ),
+
+    /* sparse grain lines */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 18px,
+      rgba(0,0,0,.08) 19px,
+      transparent 21px,
+      transparent 40px
+    ),
+
+    /* base color */
+    linear-gradient(
+      180deg,
+      #4b2e1f,
+      #3a2418
+    );
   width: min(100%, 100dvh);
   max-width: 100%;
   height: auto;
