@@ -121,12 +121,13 @@ body {
 }
 
 .paperStack, .paper {
-  border: 1px solid black;
-  border-radius: 5px;
-  background-color: papayawhip;
+  border: 5px solid  #e4ac56;
+  background-color:  #E0C9A6;
   width: 70%;
   height: 40%;
   align-content: center;
+  box-shadow: #3a2418;
+  font-weight: bold;
 }
 
 .paperStack {
