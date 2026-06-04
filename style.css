@@ -128,6 +128,7 @@ body {
   align-content: center;
   box-shadow: #3a2418;
   font-weight: bold;
+  font-size: 1cqw;
 }
 
 .paperStack {
@@ -135,11 +136,47 @@ body {
     /* The top layer shadow */
     0 -1px 1px rgba(0,0,0,0.15),
     /* The second layer */
-    0 -10px 0 -5px #eee,
+    0 -10px 0 -5px #7c6748,
     /* The second layer shadow */
     0 -10px 1px -4px rgba(0,0,0,0.15),
      /* The third layer */
-    0 -20px 0 -10px #eee,
+    0 -20px 0 -10px #4f3f27,
     /* The third layer shadow */
     0 -20px 1px -9px rgba(0,0,0,0.15);
 }
+
+/* .paper {
+  background: #fff;
+  padding: 30px;
+  position: relative;
+}
+
+.paper,
+.paper::before,
+.paper::after {
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.25);
+  border: 1px solid #bbb;
+}
+
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  height: 95%;
+  width: 99%;
+  background-color: #eee;
+}
+
+.paper::before {
+  right: 15px;
+  top: 0;
+  transform: rotate(-1deg);
+  z-index: -1;
+}
+
+.paper::after {
+  top: 5px;
+  right: -5px;
+  transform: rotate(1deg);
+  z-index: -2;
+} */
